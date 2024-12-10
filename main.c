@@ -12,15 +12,13 @@ int main(void) {
 
     do {
         ushort eq_num = 0;
-        printf(CYAN);
-        printf("Equations:\n1. cos(y/x)-2*sin(1/x)+(1/x) = 0\n2. sin(ln(x))-cos(ln(x))+y*ln(x) = 0\n");
-        printf(RESET);
+        printf(CYAN"Equations:\n1. cos(y/x)-2*sin(1/x)+(1/x) = 0\n2. sin(ln(x))-cos(ln(x))+y*ln(x) = 0\n"RESET);
         do {
             printf("Enter number of the equation: ");
             if(scanf("%hu", &eq_num) != 1 || eq_num != 1 && eq_num != 2) {
                 printf("Error: wrong input.\n");
             }
-            while (getchar() != '\n'){};
+            fflush(stdin);
         } while (eq_num != 1 && eq_num != 2);
 
         double a = 0, b = 0;
@@ -33,10 +31,10 @@ int main(void) {
             } else if (a == 0) {
                 printf("Error: a cannot be equal to 0.\n");
             }
-            while (getchar() != '\n'){};
+            fflush(stdin);
         } while (a >= b || a == 0);
 
-        double y = 0.0;
+        double y = 0;
         ushort y_input = 0;
         do {
             printf("Enter the value of parameter y: ");
@@ -44,19 +42,17 @@ int main(void) {
             if(y_input != 1) {
                 printf("Error: wrong input.\n");
             }
-            while (getchar() != '\n'){};
+            fflush(stdin);
         } while (y_input != 1);
 
         ushort method_num = 0;
-        printf(CYAN);
-        printf("Methods:\n1. Bisection Method\n2. Newton's Method\n");
-        printf(RESET);
+        printf(CYAN"Methods:\n1. Bisection Method\n2. Newton's Method\n"RESET);
         do {
             printf("Enter number of the method: ");
             if(scanf("%hu", &method_num) != 1 || method_num != 1 && method_num != 2) {
                 printf("Error: wrong input.\n");
             }
-            while (getchar() != '\n'){};
+            fflush(stdin);
         } while (method_num != 1 && method_num != 2);
 
         double epsilon = 0.0;
@@ -67,7 +63,7 @@ int main(void) {
             } else if (epsilon > MAX_E || epsilon < MIN_E) {
                 printf("Error: precision is not in range.\n");
             }
-            while (getchar() != '\n'){};
+            fflush(stdin);
         } while (epsilon > MAX_E || epsilon < MIN_E);
 
         switch (eq_num) {

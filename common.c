@@ -3,7 +3,7 @@
 #include <math.h>
 
 #define STEP 1e-6
-#define MAX_ITER 1e9
+#define MAX_ITER 1e6
 
 double f1(const double x, const double y) {
     return cos(y/x)-2.0*sin(1.0/x)+1.0/x;
@@ -61,7 +61,7 @@ void solve_equation(const ushort method_num, double (*f)(double, double), double
             double x1 = a;
             double x2 = a + STEP;
             printf(CYAN"\nRoots found in [%.*lf, %.*lf] :\n"RESET, precision, a, precision, b);
-            ushort i = 1;
+            unsigned i = 1;
             printf(YELLOW);
             while (x2 <= b) {
                 const double fa = f(x1, y);
@@ -81,8 +81,8 @@ void solve_equation(const ushort method_num, double (*f)(double, double), double
         case 2: {
             double roots[100];
             ushort root_count = 0;
-            printf(CYAN"\nRoot found in [%.*lf, %.*lf] :\n"RESET, precision, a, precision, b);
-            ushort i = 1;
+            printf(CYAN"\nRoots found in [%.*lf, %.*lf] :\n"RESET, precision, a, precision, b);
+            unsigned i = 1;
             for (double x = a; x < b; x += STEP) {
                 const double x1 = x, x2 = x + STEP;
                 if (f(x1, y) * f(x2, y) < 0) {
