@@ -31,9 +31,11 @@ int main(void) {
                 printf("Error: wrong input.\n");
             } else if (a >= b) {
                 printf("Error: a is greater or equal to b.\n");
+            } else if (a == 0) {
+                printf("Error: a cannot be equal to 0.\n");
             }
             while (getchar() != '\n'){};
-        } while (a >= b);
+        } while (a >= b || a == 0);
 
         double y = 0.0;
         ushort y_input = 0;

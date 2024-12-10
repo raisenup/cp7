@@ -10,7 +10,7 @@ double f1(const double x, const double y) {
 }
 
 double f1_derivative(const double x, const double y) {
-    return y*cos(y/x)/(x*x)+2*sin(1/x)/(x*x)-1/(x*x);
+    return (y*sin(y/x)+2*cos(1/x)-1)/(x*x);
 }
 
 double f2(const double x, const double y) {
@@ -22,13 +22,7 @@ double f2_derivative(const double x, const double y) {
 }
 
 double bisection(double (*f)(double, double), double a, double b, const double y, const double eps) {
-    a = a == 0 ? 1e-15 : a;
     double fa = f(a,y);
-    double fb = f(b,y);
-    if(fa * fb >= 0) {
-        return NAN;
-    }
-
     double mid = 0;
     do {
         mid = (a + b) / 2.0;
@@ -41,7 +35,6 @@ double bisection(double (*f)(double, double), double a, double b, const double y
             fa = fmid;
         }
     } while (fabs(b - a) > eps);
-
     return mid;
 }
 
@@ -50,19 +43,14 @@ double newton(double (*f)(double, double), double (*df)(double, double), const d
     for (int iter = 0; iter < MAX_ITER; iter++) {
         const double fx = f(x, y);
         const double fx_prime = df(x, y);
-
         const double x_new = x - fx / fx_prime;
-
         if (fabs(x_new - x) < eps) {
             return x_new;
         }
-
         x = x_new;
     }
-
     printf("Newton's method did not converge for x0 = %.15lf\n", x0);
     return NAN;
-
 }
 
 void solve_equation(const ushort method_num, double (*f)(double, double), double (*df)(double, double),
@@ -72,11 +60,8 @@ void solve_equation(const ushort method_num, double (*f)(double, double), double
         case 1: {
             double x1 = a;
             double x2 = a + STEP;
-
             printf(CYAN"\nRoots found in [%.*lf, %.*lf] :\n"RESET, precision, a, precision, b);
-
             ushort i = 1;
-
             printf(YELLOW);
             while (x2 <= b) {
                 const double fa = f(x1, y);
@@ -94,20 +79,15 @@ void solve_equation(const ushort method_num, double (*f)(double, double), double
             printf(RESET);
         } break;
         case 2: {
-
             double roots[100];
             ushort root_count = 0;
-
             printf(CYAN"\nRoot found in [%.*lf, %.*lf] :\n"RESET, precision, a, precision, b);
-
             ushort i = 1;
             for (double x = a; x < b; x += STEP) {
                 const double x1 = x, x2 = x + STEP;
-
                 if (f(x1, y) * f(x2, y) < 0) {
                     const double x0 = (x1 + x2) / 2.0;
                     double root = newton(f, df, x0, y, epsilon);
-
                     if (!isnan(root)) {
                         ushort duplicate = 0;
                         for (int j = 0; j < root_count; j++) {
@@ -116,7 +96,6 @@ void solve_equation(const ushort method_num, double (*f)(double, double), double
                                 break;
                             }
                         }
-
                         if (!duplicate) {
                             roots[root_count++] = root;
                             printf(YELLOW"x%d = %.*lf\n"RESET, i++, precision, root);
