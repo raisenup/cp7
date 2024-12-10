@@ -4,8 +4,7 @@
 #include "common.h"
 
 #define MAX_E 1e-2
-#define MIN_E_B 1e-15
-#define MIN_E_N 1e-6
+#define MIN_E 1e-15
 
 int main(void) {
 
@@ -61,16 +60,15 @@ int main(void) {
         } while (method_num != 1 && method_num != 2);
 
         double epsilon = 0.0;
-        double min_e = method_num == 1 ? MIN_E_B : MIN_E_N;
         do {
-            printf("Enter precision in exponential form [%.0e, %.0e]: ", min_e, MAX_E);
+            printf("Enter precision in exponential form [%.0e, %.0e]: ", MIN_E, MAX_E);
             if(scanf("%lf", &epsilon) != 1) {
                 printf("Error: wrong input.\n");
-            } else if (epsilon > MAX_E || epsilon < min_e) {
+            } else if (epsilon > MAX_E || epsilon < MIN_E) {
                 printf("Error: precision is not in range.\n");
             }
             while (getchar() != '\n'){};
-        } while (epsilon > MAX_E || epsilon < min_e);
+        } while (epsilon > MAX_E || epsilon < MIN_E);
 
         switch (eq_num) {
             case 1:
